@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="weekly-container">
+    <h2>🗓️ Weekly Meal Planner</h2>
+    <form method="POST">
+        <button type="submit">Generate Weekly Plan & Send PDF</button>
+    </form>
+
+    {% if weekly_meals %}
+    <div class="meal-week">
+        {% for day, info in weekly_meals.items() %}
+        <div class="day-block">
+            <h3>{{ day.upper() }}</h3>
+            <ul>
+                {% for meal in info.meals %}
+                <li>{{ meal.title }} ({{ meal.readyInMinutes }} min, {{ meal.servings }} servings)</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

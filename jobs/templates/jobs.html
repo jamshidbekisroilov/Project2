@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>💼 Job Listings</h2>
+
+<form method="POST">
+    <div>
+        <label for="title">Job Title:</label>
+        <input type="text" name="title" id="title" placeholder="e.g. Project Manager" required>
+    </div>
+
+    <div>
+        <label for="company">Company Name:</label>
+        <input type="text" name="company" id="company" placeholder="e.g. Marvarid Pro Pharm LLC" required>
+    </div>
+
+    <div>
+        <label for="location">Location:</label>
+        <input type="text" name="location" id="location" placeholder="e.g. Andijan, Uzbekistan" required>
+    </div>
+
+    <div>
+        <label for="phone">Contact Number:</label>
+        <input type="text" name="phone" id="phone" placeholder="e.g. +998 90 123 45 67" required>
+    </div>
+
+    <div>
+        <label for="description">Job Description:</label>
+        <textarea name="description" id="description" placeholder="Brief description of the role..." required></textarea>
+    </div>
+
+    <button type="submit">Post Job</button>
+</form>
+
+{% if jobs %}
+    <h3>📋 Available Jobs:</h3>
+    <ul>
+        {% for job in jobs %}
+            <li>
+                <strong>{{ job.title }}</strong> at <em>{{ job.company }}</em><br>
+                📍 Location: {{ job.location }}<br>
+                📞 Contact: {{ job.phone }}<br>
+                📝 Description: {{ job.description }}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    {% if request.method == 'POST' %}
+        <p>No jobs found. Try posting one!</p>
+    {% endif %}
+{% endif %}
+{% endblock %}

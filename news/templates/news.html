@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>📰 News Aggregator</h2>
+
+<form method="POST">
+    <div>
+        <label for="topic">Enter a topic:</label>
+        <input type="text" name="topic" id="topic" placeholder="e.g. technology, health, finance" required>
+    </div>
+    <button type="submit">Search News</button>
+</form>
+
+{% if articles %}
+    <h3>Top Articles:</h3>
+    <ul>
+        {% for article in articles %}
+            <li>
+                <strong>{{ article.title }}</strong><br>
+                <a href="{{ article.url }}" target="_blank">Read more</a><br>
+                <em>{{ article.source.name }}</em> | {{ article.publishedAt[:10] }}
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    {% if request.method == 'POST' %}
+        <p>No articles found for this topic. Try something else.</p>
+    {% endif %}
+{% endif %}
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="meal-planner-container">
+    <h2>🍽️ Smart Meal Planner</h2>
+
+    <div class="form-section">
+        <form method="POST">
+            <div class="form-group">
+                <label for="ingredients">Available Ingredients:</label>
+                <input type="text" name="ingredients" id="ingredients" placeholder="e.g. tomato, egg, rice" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">Generate Plan</button>
+            </div>
+        </form>
+    </div>
+
+    {% if meals %}
+    <div class="results-section">
+        <h3>🗓️ Your Daily Meal Plan:</h3>
+        <div class="meal-list">
+            {% for meal in meals %}
+            <div class="meal-card">
+                <strong>{{ meal.get('title', 'No title') }}</strong>
+                <p>⏱️ Ready in {{ meal.get('readyInMinutes', '?') }} minutes</p>
+                <p>🍽️ Servings: {{ meal.get('servings', '?') }}</p>
+                <a href="https://spoonacular.com/recipes/{{ meal.get('title', '') | replace(' ', '-') }}-{{ meal.get('id', '') }}" target="_blank">View Recipe</a>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="nutrition-summary">
+            <h4>🔬 Nutritional Summary:</h4>
+            <ul>
+                <li>Calories: {{ nutrients.get('calories', 'N/A') }} kcal</li>
+                <li>Protein: {{ nutrients.get('protein', 'N/A') }}</li>
+                <li>Fat: {{ nutrients.get('fat', 'N/A') }}</li>
+                <li>Carbs: {{ nutrients.get('carbohydrates', 'N/A') }}</li>
+            </ul>
+        </div>
+    </div>
+    {% elif request.method == 'POST' %}
+    <div class="no-results">
+        <p>❌ No meal plan found. Please try different ingredients.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
